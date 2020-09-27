@@ -1,7 +1,7 @@
 # Google-PLay-Market-Apps-Analytics
 Project Done In Partial Fulfilment of the Requirements for the Degree of Master of Science in Business Intelligence and Data Analytics
 
-The aim of the project was to make a research into the Google Play Market apps ecosystem and try to figure out what affects apps popularity, how to reach monetary success with new app development and avoid risk of popularity decrease. Working on this project it was essential to demonstrate tools and techniques for processing the huge amount of data that Google Play Market has to offer. Number of available apps there is close to 3 million and many thousands new apps are added every day. So, in order to be as precise as possible and answer really focused questions, it is important to have reliable and scalable tools that could effectively utilize available computational power. 
+The aim of this project was to make a research into the Google Play Market apps ecosystem and try to figure out what affects apps popularity, how to reach monetary success with new app development and avoid risk of popularity decrease. Working on this project it was essential to demonstrate tools and techniques for processing the huge amount of data that Google Play Market has to offer. Number of available apps there is close to 3 million and many thousands new apps are added every day. So, in order to be as precise as possible and answer really focused questions, it is important to have reliable and scalable tools that could effectively utilize available computational power. 
 During this project there were offered several different approaches from technical point of view. They are:
 Web Scrapping
 Data Optimization
