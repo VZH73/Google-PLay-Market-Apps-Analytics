@@ -9,43 +9,42 @@
 # Result will be written in a separate folder, to keep original text reviews for whatever reason in future
 import pandas as pd
 import os
-#from tqdm.auto import tqdm
 import spacy
 spacy.require_gpu()
 nlp = spacy.load("en_core_web_sm")
 
-#from threading import Thread
-#from queue import Queue
 from multiprocessing import Process, Queue
 import logging
 
-def MakeLemma(appId):
+def MakeLemma(app_Id):
     try:
-        fname_from = 'ReviewsPKL//{}.pkl'.format(appId)
-        fname_to = 'ReviewsLemma//{}.pkl'.format(appId)
-        if os.path.exists(fname_from):
-            if not os.path.exists(fname_to):
-                reviews = pd.read_pickle(fname_from)
+        file_from = '{}\\{:02d}_ReviewsPKL\\{}.pkl'.format(Data_Folder,13,app_Id)
+        file_to = '{}\\{:02d}_ReviewsLemma\\{}.pkl'.format(Data_Folder,18,app_Id)
+        if os.path.exists(file_from):
+            if not os.path.exists(file_to):
+                reviews = pd.read_pickle(file_from)
 
                 # Skip apps with no reviews
                 ff = reviews[reviews['content'].str.len()>0]
                 if len(ff) > 0:
                     reviews.dropna(subset=['content'], inplace=True)
                     reviews['content'] = [[t.lemma_ for t in d if t.pos in [100, 92, 84, 86]] for d in nlp.pipe(reviews['content'])]
-                    reviews.to_pickle(fname_to)
+                    reviews.to_pickle(file_to)
     except:
         pass
 
 def worker(th_name,q):
     while True:
-        appId = q.get()
-        logging.debug('Thread: {}. App: {}. Apps left: {} '.format(th_name, appId, q.qsize()), end='\r')
-        MakeLemma(appId)
+        app_Id = q.get()
+        logging.debug('Thread: {}. App: {}. Apps left: {} '.format(th_name, app_Id, q.qsize()), end='\r')
+        MakeLemma(app_Id)
         #q.task_done()
 
 if __name__ == '__main__':
+    Data_Folder = 'Data'
+
     q = Queue()
-    df = pd.read_csv('Dataset//app_data_processed.csv', usecols=['appId'])
+    df = pd.read_csv('{}\\{:02d}_app_data_processed.csv'.format(Data_Folder,8), usecols=['appId'])
     appIds = list(df['appId'])
 
     for appId in appIds:

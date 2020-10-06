@@ -17,27 +17,28 @@ def Get_Single_Sentiment(text):
     b = TextBlob(text)
     return pd.Series([b.sentiment.polarity, b.sentiment.subjectivity])
 
-def Make_Sentiment_Analysis(appId):
+def Make_Sentiment_Analysis(app_Id):
     try:
-        file_from = ''.join(['ReviewsLemma//', appId, '.pkl'])
-        file_to = ''.join(['ReviewsSentiment//', appId, '.pkl'])
+        file_from = '{}\\{:02d}_ReviewsLemma\\{}.pkl'.format(Data_Folder,18,app_Id)
+        file_to = '{}\\{:02d}ReviewsSentiment\\{}.pkl'.format(Data_Folder,19,app_Id)
         if not os.path.exists(file_to) :
             if os.path.exists(file_from):
-                reviewsP = pd.read_pickle(''.join(['ReviewsPKL//', appId, '.pkl']))
+                reviewsP = pd.read_pickle('{}\\{:02d}_ReviewsPKL\\{}.pkl'.format(Data_Folder,13,app_Id))
                 reviewsP.dropna(subset=['content'], inplace=True)
                 reviewsL = pd.read_pickle(file_from)
 
                 reviewsL[['polarity', 'subjectivity']] = reviewsP['content'].apply(Get_Single_Sentiment)
 
                 reviewsL.to_pickle()
-                print("Process {} Processed {}".format(current_process().name, appId), end="\r")
+                print("Process {} Processed {}".format(current_process().name, app_Id), end="\r")
 
     except:
-        print("Failed on {}".format(appId))
+        print("Failed on {}".format(app_Id))
 
 if __name__ == '__main__':
+    Data_Folder = 'Data'
     q = Queue()
-    df = pd.read_csv('Dataset//app_data_processed.csv', usecols=['appId'])
+    df = pd.read_csv('{}\\{:02d}_app_data_processed.csv'.format(Data_Folder,8), usecols=['appId'])
     appIds = list(df['appId'])
 
     freeze_support()
